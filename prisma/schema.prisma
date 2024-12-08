@@ -16,32 +16,41 @@ model User {
 }
 
 model Equipo {
-  id          Int         @id @default(autoincrement())
-  nombre      String // Nombre del equipo (PC, teclado, etc.)
-  descripcion String? // Detalles del equipo
-  tipo        String // Tipo del equipo (ej. "PC", "Teclado", "Monitor")
-  estado      Estado      @default(BUEN_ESTADO) // Estado actual del equipo
-  conjuntoId  Int? // Relación opcional con un conjunto (si aplica)
-  conjunto    Conjunto?   @relation(fields: [conjuntoId], references: [id])
-  createdAt   DateTime    @default(now())
-  updatedAt   DateTime    @updatedAt
-  historiales Historial[] // Relación con el modelo Historial
+  id              Int              @id @default(autoincrement())
+  nombre          String // Nombre del equipo (PC, teclado, etc.)
+  descripcion     String? // Detalles del equipo
+  tipo            String // Tipo del equipo (ej. "PC", "Teclado", "Monitor")
+  estado          Estado           @default(BUEN_ESTADO) // Estado actual del equipo
+  conjuntoId      Int? // Relación opcional con un conjunto (si aplica)
+  createdAt       DateTime         @default(now())
+  updatedAt       DateTime         @updatedAt
+  conjuntoEquipos ConjuntoEquipo[]
+  historiales     Historial[] // Relación con el modelo Historial
 }
 
 enum Estado {
   BUEN_ESTADO
   NECESITA_REVISION
   NECESITA_REEMPLAZO
-  DESCOMPUESTO
+  NECESITA_REPARACION
 }
 
 model Conjunto {
-  id          Int      @id @default(autoincrement())
-  nombre      String // Nombre del conjunto (ej. "PC de Aula 1")
-  descripcion String? // Información opcional del conjunto
-  equipos     Equipo[] // Relación con los equipos
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  id          Int              @id @default(autoincrement())
+  name        String
+  description String?
+  createdAt   DateTime         @default(now())
+  updatedAt   DateTime         @updatedAt
+  equipos     ConjuntoEquipo[]
+}
+
+model ConjuntoEquipo {
+  id         Int      @id @default(autoincrement())
+  conjuntoId Int
+  equipoId   Int
+  createdAt  DateTime @default(now())
+  conjunto   Conjunto @relation(fields: [conjuntoId], references: [id])
+  equipo     Equipo   @relation(fields: [equipoId], references: [id])
 }
 
 model Historial {

@@ -40,3 +40,34 @@ export async function POST(request) {
         return NextResponse.json({ error: "Error interno del servidor" }, { status: 500 });
     }
 }
+
+export async function GET(request) {
+    try {
+        // Obtiene los parámetros de la consulta (query params)
+        const url = new URL(request.url);
+        const tipo = url.searchParams.get("tipo");  // Parámetro de tipo
+        const estado = url.searchParams.get("estado");  // Parámetro de estado
+
+        // Construye el filtro dinámico
+        const filters = {};
+        if (tipo) {
+            filters.tipo = tipo;
+        }
+        if (estado) {
+            filters.estado = estado;
+        }
+
+        // Obtiene los equipos filtrados
+        const equipos = await prisma.equipo.findMany({
+            where: filters,  // Aplica el filtro dinámico
+        });
+
+        return NextResponse.json(equipos, { status: 200 });
+    } catch (error) {
+        console.error("Error al obtener los equipos:", error);
+        return NextResponse.json(
+            { error: "Error interno del servidor" },
+            { status: 500 }
+        );
+    }
+}
