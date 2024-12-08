@@ -5,7 +5,7 @@ import { signOut } from "next-auth/react";
 
 export default function Nav() {
     return (
-        <div class="h-screen w-60 bg-slate-800 text-white top-0 left-0 flex flex-col justify-between drop-shadow-[0_0px_6px_rgba(0,0,0,0.9)] z-20">
+        <div class="h-screen w-60 bg-slate-800 text-white top-0 left-0 flex flex-col justify-between drop-shadow-[0_0px_6px_rgba(0,0,0,0.9)] z-20 fixed">
             <div>
                 <div class="p-4 text-2xl font-semibold">
                     <a href="/">CSFA 47 INVENTARIO</a>
@@ -27,9 +27,9 @@ export default function Nav() {
                     href="#"
                     onClick={(e) => {
                         e.preventDefault();
-                        signOut();
+                        signOut({ callbackUrl: '/login' });
                     }}
-                    class="block py-3 px-4 m-2 rounded text-xl transition duration-200 hover:bg-red-500 drop-shadow-[0_3px_3px_rgba(0,0,0,0.3)]"
+                    className="block py-3 px-4 m-2 rounded text-xl transition duration-100 bg-red-500 drop-shadow-[0_3px_3px_rgba(0,0,0,0.3)] hover:scale-[1.02]"
                 >
                     Cerrar Sesión
                 </a>
