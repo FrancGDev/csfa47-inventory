@@ -47,7 +47,7 @@ const ListarEquipos = () => {
                         onChange={handleTipoChange}
                         className="border p-2 rounded w-full"
                     >
-                        <option value="">Seleccionar Tipo</option>
+                        <option value="">Todos</option>
                         <option value="PC">PC</option>
                         <option value="RATON">RATON</option>
                         <option value="TECLADO">TECLADO</option>
@@ -64,7 +64,7 @@ const ListarEquipos = () => {
                         onChange={handleEstadoChange}
                         className="border p-2 rounded w-full"
                     >
-                        <option value="">Seleccionar Estado</option>
+                        <option value="">Todo</option>
                         <option value="BUEN_ESTADO">Buen estado</option>
                         <option value="NECESITA_REVISION">Necesita revisión</option>
                         <option value="NECESITA_REEMPLAZO">Necesita reemplazo</option>
@@ -77,11 +77,11 @@ const ListarEquipos = () => {
                 <table className="min-w-full border-collapse">
                     <thead>
                         <tr className="bg-blue-400 text-white">
-                            <th className="p-3">ID</th>
-                            <th className="p-3">Nombre</th>
-                            <th className="p-3">Tipo</th>
-                            <th className="p-3">Descripción</th>
-                            <th className="p-3">Estado</th>
+                            <th className="p-3 text-left">ID</th>
+                            <th className="p-3 text-left">Nombre</th>
+                            <th className="p-3 text-left">Tipo</th>
+                            <th className="p-3 text-left">Descripción</th>
+                            <th className="p-3 text-left">Estado</th>
                         </tr>
                     </thead>
                     <tbody>

@@ -20,19 +20,12 @@ model Equipo {
   nombre          String // Nombre del equipo (PC, teclado, etc.)
   descripcion     String? // Detalles del equipo
   tipo            String // Tipo del equipo (ej. "PC", "Teclado", "Monitor")
-  estado          Estado           @default(BUEN_ESTADO) // Estado actual del equipo
+  estado          String // Estado actual del equipo
   conjuntoId      Int? // Relación opcional con un conjunto (si aplica)
   createdAt       DateTime         @default(now())
   updatedAt       DateTime         @updatedAt
   conjuntoEquipos ConjuntoEquipo[]
   historiales     Historial[] // Relación con el modelo Historial
-}
-
-enum Estado {
-  BUEN_ESTADO
-  NECESITA_REVISION
-  NECESITA_REEMPLAZO
-  NECESITA_REPARACION
 }
 
 model Conjunto {

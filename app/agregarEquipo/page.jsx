@@ -121,9 +121,10 @@ const AddEquipment = () => {
                             onChange={(e) => setEstado(e.target.value)}
                             className="border p-2 rounded w-full"
                         >
-                            <option value="BUEN_ESTADO">Buen estado</option>
-                            <option value="NECESITA_REVISION">Necesita revisión</option>
-                            <option value="NECESITA_REEMPLAZO">Necesita reemplazo</option>
+                            <option value="BUEN ESTADO">Buen estado</option>
+                            <option value="NECESITA REVISION">Necesita revisión</option>
+                            <option value="NECESITA MANTENIMIENTO">Necesita mantenimiento</option>
+                            <option value="NECESITA REEMPLAZO">Necesita reemplazo</option>
                         </select>
                         {errors.estado && <p className="text-red-500 text-sm">{errors.estado}</p>}
                     </div>
