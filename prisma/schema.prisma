@@ -25,7 +25,7 @@ model Equipo {
   createdAt       DateTime         @default(now())
   updatedAt       DateTime         @updatedAt
   conjuntoEquipos ConjuntoEquipo[]
-  historiales     Historial[] // Relación con el modelo Historial
+  historial       Mantenimiento[] // Relación con el modelo Historial
 }
 
 model Conjunto {
@@ -46,11 +46,11 @@ model ConjuntoEquipo {
   equipo     Equipo   @relation(fields: [equipoId], references: [id])
 }
 
-model Historial {
-  id         Int      @id @default(autoincrement())
-  equipoId   Int // Relación con un equipo
-  equipo     Equipo   @relation(fields: [equipoId], references: [id])
-  accion     String // Acción realizada (reparación, revisión, etc.)
-  comentario String? // Detalles adicionales
-  fecha      DateTime @default(now())
+model Mantenimiento {
+  id       Int      @id @default(autoincrement())
+  equipoId Int // Relación con un equipo
+  equipo   Equipo   @relation(fields: [equipoId], references: [id])
+  falla    String // Acción realizada (reparación, revisión, etc.)
+  acciones String? // Detalles adicionales
+  fecha    DateTime @default(now())
 }

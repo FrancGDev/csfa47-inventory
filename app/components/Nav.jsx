@@ -22,8 +22,8 @@ export default function Nav() {
                     <Link href="/mantenimiento" className="block py-3 px-4 my-4 rounded transition duration-100 bg-blue-800 drop-shadow-[0_3px_3px_rgba(0,0,0,0.3)]  hover:scale-[1.02]">
                         Mantenimiento
                     </Link>
-                    <Link href="/agregarEquipo" className="block py-3 px-4 my-4 rounded transition duration-100 bg-blue-800 drop-shadow-[0_3px_3px_rgba(0,0,0,0.3)]  hover:scale-[1.02]">
-                        Historial Reparación
+                    <Link href="/historialMantenimiento" className="block py-3 px-4 my-4 rounded transition duration-100 bg-blue-800 drop-shadow-[0_3px_3px_rgba(0,0,0,0.3)]  hover:scale-[1.02]">
+                        Historial Mantenimiento
                     </Link>
                 </nav>
             </div>
