@@ -156,7 +156,7 @@ const AddEquipment = () => {
                     <div className="m-4">
                         <button
                             type="submit"
-                            className="p-2 w-full bg-gradient-to-r from-green-500 to-blue-500 text-white rounded drop-shadow-[2px_4px_0px_rgba(0,0,0,0.8)] active:drop-shadow-none transition duration-200 ease-out active:translate-y-[3px]"
+                            className="p-2 w-full bg-gradient-to-r from-green-500 to-sky-500 text-white rounded drop-shadow-[2px_4px_0px_rgba(0,0,0,0.8)] active:drop-shadow-none transition duration-200 ease-out active:translate-y-[3px]"
                         >
                             Agregar Equipo
                         </button>
