@@ -9,7 +9,6 @@ const AddEquipment = () => {
     const [tipo, setTipo] = useState("");
     const [estado, setEstado] = useState("BUEN_ESTADO");
     const [descripcion, setDescripcion] = useState("");
-    const [conjuntoId, setConjuntoId] = useState("");
 
     const [errors, setErrors] = useState({
         nombre: "",
@@ -23,7 +22,6 @@ const AddEquipment = () => {
 
         let hasError = false;
 
-        // Validación de campos
         if (!nombre.trim()) {
             setErrors((prev) => ({ ...prev, nombre: "El nombre del equipo es obligatorio." }));
             hasError = true;
@@ -51,8 +49,7 @@ const AddEquipment = () => {
                     nombre,
                     tipo,
                     estado,
-                    descripcion: descripcion.trim() || null, // Descripción opcional
-                    conjuntoId: conjuntoId ? parseInt(conjuntoId) : null, // Conjunto opcional
+                    descripcion: descripcion.trim() || null,
                 }),
             });
 
@@ -62,7 +59,6 @@ const AddEquipment = () => {
                 setTipo("");
                 setEstado("BUEN_ESTADO");
                 setDescripcion("");
-                setConjuntoId("");
             } else {
                 const errorData = await response.json();
                 toast.error(errorData.error || "Error al agregar el equipo");
@@ -81,7 +77,7 @@ const AddEquipment = () => {
                     onSubmit={handleSubmit}
                     className="m-4 w-full max-w-4xl bg-white drop-shadow-[2px_3px_3px_rgba(0,0,0,0.3)]"
                 >
-                    {/* Campo Nombre */}
+
                     <div className="m-4">
                         <label className="text-lg font-medium">Nombre del equipo:</label>
                         <input
@@ -94,7 +90,6 @@ const AddEquipment = () => {
                         {errors.nombre && <p className="text-red-500 text-sm">{errors.nombre}</p>}
                     </div>
 
-                    {/* Campo Tipo */}
                     <div className="m-4">
                         <label className="text-lg font-medium">Tipo de equipo:</label>
                         <select
@@ -102,18 +97,21 @@ const AddEquipment = () => {
                             onChange={(e) => setTipo(e.target.value)}
                             className="border p-2 rounded w-full"
                         >
+                            <option value="" disabled hidden>
+                                Seleccione un tipo
+                            </option>
                             <option value="PC">PC</option>
-                            <option value="RATON">RATON</option>
+                            <option value="RATON">RATÓN</option>
                             <option value="TECLADO">TECLADO</option>
                             <option value="PARLANTES">PARLANTES</option>
                             <option value="MONITOR">MONITOR</option>
                             <option value="IMPRESORA">IMPRESORA</option>
                             <option value="OTROS">OTROS</option>
                         </select>
+
                         {errors.tipo && <p className="text-red-500 text-sm">{errors.tipo}</p>}
                     </div>
 
-                    {/* Campo Estado */}
                     <div className="m-4">
                         <label className="text-lg font-medium">Estado del equipo:</label>
                         <select
@@ -129,7 +127,6 @@ const AddEquipment = () => {
                         {errors.estado && <p className="text-red-500 text-sm">{errors.estado}</p>}
                     </div>
 
-                    {/* Campo Descripción */}
                     <div className="m-4">
                         <label className="text-lg font-medium">Descripción (opcional):</label>
                         <textarea
@@ -140,19 +137,6 @@ const AddEquipment = () => {
                         />
                     </div>
 
-                    {/* Campo Conjunto ID */}
-                    <div className="m-4">
-                        <label className="text-lg font-medium">Conjunto ID (opcional):</label>
-                        <input
-                            type="number"
-                            className="border p-2 rounded w-full"
-                            placeholder="Ejemplo: 1"
-                            value={conjuntoId}
-                            onChange={(e) => setConjuntoId(e.target.value)}
-                        />
-                    </div>
-
-                    {/* Botón de enviar */}
                     <div className="m-4">
                         <button
                             type="submit"

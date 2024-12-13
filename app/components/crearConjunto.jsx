@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import toast from 'react-hot-toast';
 
 const CrearConjunto = () => {
     const [name, setName] = useState('');
@@ -35,15 +36,16 @@ const CrearConjunto = () => {
         });
 
         if (response.ok) {
-            alert("Conjunto creado con éxito");
+            toast.success("Conjunto creado con éxito");
+
         } else {
-            alert("Error al crear el conjunto");
+            toast.error("Error al crear el conjunto");
         }
     };
 
     return (
-        <section className="p-4 h-full w-full flex flex-col items-center">
-            <div className="bg-white p-8 rounded drop-shadow-[2px_3px_3px_rgba(0,0,0,0.3)] w-full max-w-lg">
+        <section className=" h-full w-full flex flex-col items-center">
+            <div className="">
                 <h1 className="text-center text-4xl m-4 font-bold">Crear Conjunto</h1>
 
                 <form onSubmit={handleSubmit} className="space-y-6">

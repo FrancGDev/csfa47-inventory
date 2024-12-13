@@ -7,10 +7,10 @@ export async function GET(request) {
     try {
         const mantenimientos = await prisma.mantenimiento.findMany({
             include: {
-                equipo: true, // Incluye la información del equipo asociado
+                equipo: true,
             },
             orderBy: {
-                fecha: 'desc', // Ordenar del más reciente al más antiguo
+                fecha: 'desc',
             },
         });
 

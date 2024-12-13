@@ -4,6 +4,9 @@ import React, { useState, useEffect } from 'react';
 import toast from 'react-hot-toast';
 
 import MainLayout from '../components/MainLayout';
+import HistorialMantenimiento from '../components/historialMantenimiento';
+
+
 
 const Mantenimiento = () => {
     const [equipos, setEquipos] = useState([]);
@@ -16,6 +19,7 @@ const Mantenimiento = () => {
         const fetchEquipos = async () => {
             const response = await fetch('/api/mantenimiento');
             const data = await response.json();
+            console.log(data);
             setEquipos(data);
         };
         fetchEquipos();
@@ -65,7 +69,6 @@ const Mantenimiento = () => {
 
     return (
         <MainLayout>
-
             <div className="p-4">
                 <h1 className="text-2xl font-bold mb-4">Mantenimiento</h1>
                 <form onSubmit={handleSubmit} className="space-y-4">
@@ -77,11 +80,16 @@ const Mantenimiento = () => {
                             className="border rounded p-2 w-full"
                         >
                             <option value="">Selecciona un equipo</option>
-                            {equipos.map((equipo) => (
-                                <option key={equipo.id} value={equipo.id}>
-                                    {`${equipo.id} - ${equipo.nombre}`}
-                                </option>
-                            ))}
+                            {equipos.length > 0 ? (
+                                equipos.map((equipo) => (
+                                    <option key={equipo.id} value={equipo.id}>
+                                        {`${equipo.id} - ${equipo.nombre}`}
+                                    </option>
+                                ))
+                            ) : (
+                                <option disabled>Cargando equipos...</option>
+                            )}
+
                         </select>
 
                     </div>
@@ -124,6 +132,7 @@ const Mantenimiento = () => {
                         Registrar Mantenimiento
                     </button>
                 </form>
+                <HistorialMantenimiento />
             </div>
         </MainLayout>
     );

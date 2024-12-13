@@ -6,12 +6,12 @@ import Link from 'next/link';
 
 export default function Nav() {
     return (
-        <div class="h-screen w-60 bg-zinc-900 text-white top-0 left-0 flex flex-col justify-between drop-shadow-[0_0px_6px_rgba(0,0,0,0.9)] z-20 fixed">
+        <div className="h-screen w-60 bg-zinc-900 text-white top-0 left-0 flex flex-col justify-between drop-shadow-[0_0px_6px_rgba(0,0,0,0.9)] z-20 fixed">
             <div>
-                <div class="p-4 text-2xl font-semibold">
+                <div className="p-4 text-2xl font-semibold">
                     <a href="/dashboard">CSFA 47 INVENTARIO</a>
                 </div>
-                <nav class="mt-10 mx-2">
+                <nav className="mt-10 mx-2">
 
                     <Link href="/dashboard" className="block py-3 px-4 my-4 rounded transition duration-100 bg-blue-800 drop-shadow-[0_3px_3px_rgba(0,0,0,0.3)]  hover:scale-[1.02]">
                         Pagina Principal
