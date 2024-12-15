@@ -29,11 +29,11 @@ const HistorialMantenimiento = () => {
     }, []);
 
     if (loading) {
-        return <><p>Cargando historial de mantenimiento...</p></>
+        return <section className="py-16"><p>Cargando historial de mantenimiento...</p></section>
     }
 
     if (historial.length === 0) {
-        return <><p>No hay registros de mantenimiento.</p></>
+        return <section className="py-16"><p>No hay registros de mantenimiento.</p></section>
     }
 
     return (
@@ -59,7 +59,7 @@ const HistorialMantenimiento = () => {
                                 <td className=" border-gray-300 p-2">{`${registro.equipo.id} - ${registro.equipo.nombre}`}</td>
                                 <td className=" border-gray-300 p-2">{registro.falla}</td>
                                 <td className=" border-gray-300 p-2">{registro.acciones}</td>
-                                <td className=" border-gray-300 p-2">{registro.equipo.estado}</td>
+                                <td className=" border-gray-300 p-2">{registro.estadoDejado}</td>
                                 <td className=" border-gray-300 p-2">{new Date(registro.fecha).toLocaleString()}</td>
                             </tr>
                         ))}

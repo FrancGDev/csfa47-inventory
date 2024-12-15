@@ -47,10 +47,11 @@ model ConjuntoEquipo {
 }
 
 model Mantenimiento {
-  id       Int      @id @default(autoincrement())
-  equipoId Int // Relación con un equipo
-  equipo   Equipo   @relation(fields: [equipoId], references: [id])
-  falla    String // Acción realizada (reparación, revisión, etc.)
-  acciones String? // Detalles adicionales
-  fecha    DateTime @default(now())
+  id           Int      @id @default(autoincrement())
+  equipoId     Int // Relación con un equipo
+  equipo       Equipo   @relation(fields: [equipoId], references: [id])
+  falla        String // Acción realizada (reparación, revisión, etc.)
+  acciones     String? // Detalles adicionales
+  estadoDejado String
+  fecha        DateTime @default(now())
 }

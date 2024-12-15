@@ -22,7 +22,7 @@ export async function GET() {
 export async function POST(request) {
     try {
         const body = await request.json();
-        const { equipoId, falla, acciones, estado } = body;
+        const { equipoId, falla, acciones, estado, } = body;
 
         if (!equipoId || !falla || !acciones || !estado) {
             return NextResponse.json({ error: "Faltan campos obligatorios" }, { status: 400 });
@@ -34,6 +34,7 @@ export async function POST(request) {
                 equipoId,
                 falla,
                 acciones,
+                estadoDejado: estado
             },
         });
 

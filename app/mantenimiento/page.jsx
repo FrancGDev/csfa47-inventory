@@ -40,7 +40,7 @@ const Mantenimiento = () => {
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify({
-                    equipoId: Number(selectedEquipo), // Asegurarnos de que sea un número
+                    equipoId: Number(selectedEquipo),
                     falla,
                     acciones,
                     estado,
@@ -53,7 +53,6 @@ const Mantenimiento = () => {
                 setFalla('');
                 setAcciones('');
                 setEstado('');
-                // Refrescar la lista de equipos
                 const updatedEquipos = equipos.filter(e => e.id !== Number(selectedEquipo));
                 setEquipos(updatedEquipos);
             } else {
@@ -69,69 +68,74 @@ const Mantenimiento = () => {
 
     return (
         <MainLayout>
-            <div className="p-4">
-                <h1 className="text-2xl font-bold mb-4">Mantenimiento</h1>
-                <form onSubmit={handleSubmit} className="space-y-4">
-                    <div>
-                        <label className="block text-lg font-medium mb-1">Equipo:</label>
-                        <select
-                            value={selectedEquipo}
-                            onChange={(e) => setSelectedEquipo(Number(e.target.value))} // Convertir a número
-                            className="border rounded p-2 w-full"
-                        >
-                            <option value="">Selecciona un equipo</option>
-                            {equipos.length > 0 ? (
-                                equipos.map((equipo) => (
-                                    <option key={equipo.id} value={equipo.id}>
-                                        {`${equipo.id} - ${equipo.nombre}`}
-                                    </option>
-                                ))
-                            ) : (
-                                <option disabled>Cargando equipos...</option>
-                            )}
+            <div className="p-6">
+                <section className='p-4 h-full w-full flex flex-col items-center'>
+                    <h1 className="text-2xl font-bold mb-4">Mantenimiento</h1>
+                    <form onSubmit={handleSubmit} className="p-4 space-y-2 w-full max-w-4xl bg-white drop-shadow-[2px_3px_3px_rgba(0,0,0,0.3)]">
+                        <div>
+                            <label className="block text-lg font-medium">Equipo:</label>
+                            <select
+                                value={selectedEquipo}
+                                onChange={(e) => setSelectedEquipo(Number(e.target.value))}
+                                className="border rounded p-2 w-full"
+                            >
+                                <option value="" disabled hidden>Selecciona un equipo</option>
+                                {equipos.length > 0 ? (
+                                    equipos.map((equipo) => (
+                                        <option key={equipo.id} value={equipo.id}>
+                                            {`${equipo.id} - ${equipo.nombre}`}
+                                        </option>
+                                    ))
+                                ) : (
+                                    <option disabled>Cargando equipos...</option>
+                                )}
 
-                        </select>
+                            </select>
 
-                    </div>
-                    <div>
-                        <label className="block text-lg font-medium mb-1">Falla:</label>
-                        <textarea
-                            value={falla}
-                            onChange={(e) => setFalla(e.target.value)}
-                            className="border rounded p-2 w-full"
-                            placeholder="Describe la falla"
-                        />
-                    </div>
-                    <div>
-                        <label className="block text-lg font-medium mb-1">Acciones realizadas:</label>
-                        <textarea
-                            value={acciones}
-                            onChange={(e) => setAcciones(e.target.value)}
-                            className="border rounded p-2 w-full"
-                            placeholder="Describe las acciones realizadas"
-                        />
-                    </div>
-                    <div>
-
-                        <select
-                            value={estado}
-                            onChange={(e) => setEstado(e.target.value)}
-                            className="border rounded p-2 w-full"
-                        >
-                            <option value="BUEN ESTADO">Buen estado</option>
-                            <option value="NECESITA REVISION">Necesita revisión</option>
-                            <option value="NECESITA MANTENIMIENTO">Necesita mantenimiento</option>
-                            <option value="NECESITA REEMPLAZO">Necesita reemplazo</option>
-                        </select>
-                    </div>
-
-                    <button
-                        type="submit"
-                        className="bg-blue-500 text-white px-4 py-2 rounded"
-                    >
-                        Registrar Mantenimiento
-                    </button>
-                </form>
+                        </div>
+                        <div>
+                            <label className="block text-lg font-medium">Falla:</label>
+                            <textarea
+                                value={falla}
+                                onChange={(e) => setFalla(e.target.value)}
+                                className="border rounded p-2 w-full"
+                                placeholder="Describe la falla"
+                            />
+                        </div>
+                        <div>
+                            <label className="block text-lg font-medium">Acciones realizadas:</label>
+                            <textarea
+                                value={acciones}
+                                onChange={(e) => setAcciones(e.target.value)}
+                                className="border rounded p-2 w-full"
+                                placeholder="Describe las acciones realizadas"
+                            />
+                        </div>
+                        <div>
+                            <select
+                                value={estado}
+                                onChange={(e) => setEstado(e.target.value)}
+                                className="border rounded p-2 w-full"
+                            >
+                                <option value="" disabled hidden>
+                                    Seleccione el estado actual
+                                </option>
+                                <option value="BUEN ESTADO">Buen estado</option>
+                                <option value="NECESITA REVISION">Necesita revisión</option>
+                                <option value="NECESITA MANTENIMIENTO">Necesita mantenimiento</option>
+                                <option value="NECESITA REEMPLAZO">Necesita reemplazo</option>
+                            </select>
+                        </div>
+                        <div className="flex justify-end space-x-4">
+                            <button
+                                type="submit"
+                                className="bg-blue-500 text-white px-4 py-2 rounded"
+                            >
+                                Registrar Mantenimiento
+                            </button>
+                        </div>
+                    </form>
+                </section>
                 <HistorialMantenimiento />
             </div>
         </MainLayout>
