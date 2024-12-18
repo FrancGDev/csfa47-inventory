@@ -13,13 +13,10 @@ export default function Nav() {
                 </div>
                 <nav className="mt-10 mx-2">
 
-                    <Link href="/dashboard" className="block py-3 px-4 my-4 rounded transition duration-100 bg-blue-800 drop-shadow-[0_3px_3px_rgba(0,0,0,0.3)]  hover:scale-[1.02]">
+                    <Link href="/dashboard" className="block py-4 px-4 my-4 rounded transition duration-100 bg-blue-800 drop-shadow-[0_3px_3px_rgba(0,0,0,0.3)]  hover:scale-[1.02]">
                         Pagina Principal
                     </Link>
-                    <Link href="/agregarEquipo" className="block py-3 px-4 my-4 rounded transition duration-100 bg-blue-800 drop-shadow-[0_3px_3px_rgba(0,0,0,0.3)]  hover:scale-[1.02]">
-                        Agregar Equipo
-                    </Link>
-                    <Link href="/mantenimiento" className="block py-3 px-4 my-4 rounded transition duration-100 bg-blue-800 drop-shadow-[0_3px_3px_rgba(0,0,0,0.3)]  hover:scale-[1.02]">
+                    <Link href="/mantenimiento" className="block py-4 px-4 my-4 rounded transition duration-100 bg-blue-800 drop-shadow-[0_3px_3px_rgba(0,0,0,0.3)]  hover:scale-[1.02]">
                         Mantenimiento
                     </Link>
 

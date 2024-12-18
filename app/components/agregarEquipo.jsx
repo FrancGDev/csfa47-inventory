@@ -3,7 +3,7 @@
 import React, { useState } from "react";
 import toast from "react-hot-toast";
 
-const AgregarEquipo = ({ handleCloseAgregarEquipo }) => {
+const AgregarEquipo = ({ handleCloseAgregarEquipo, fetchEquipos }) => {
     const [nombre, setNombre] = useState("");
     const [tipo, setTipo] = useState("");
     const [estado, setEstado] = useState("BUEN_ESTADO");
@@ -58,6 +58,8 @@ const AgregarEquipo = ({ handleCloseAgregarEquipo }) => {
                 setTipo("");
                 setEstado("BUEN_ESTADO");
                 setDescripcion("");
+                fetchEquipos();
+                handleCloseAgregarEquipo();
             } else {
                 const errorData = await response.json();
                 toast.error(errorData.error || "Error al agregar el equipo");

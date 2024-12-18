@@ -1,10 +1,14 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import AgregarEquipo from "./agregarEquipo";
+import toast from "react-hot-toast";
 
 const GestionarEquipos = () => {
     const [equipos, setEquipos] = useState([]);
+    const [totalPages, setTotalPages] = useState(1);
+    const [currentPage, setCurrentPage] = useState(1);
     const [tipo, setTipo] = useState("");
     const [estado, setEstado] = useState("");
+    const [limit] = useState(5);
 
     const [showAgregarEquipo, setShowAgregarEquipo] = useState(false);
     const handleOpenAgregarEquipo = () => setShowAgregarEquipo(true);
@@ -18,23 +22,6 @@ const GestionarEquipos = () => {
         setEstado(e.target.value);
     };
 
-    useEffect(() => {
-        const fetchEquipos = async () => {
-            let url = "/api/equipos?";
-            if (tipo) url += `tipo=${tipo}&`;
-            if (estado) url += `estado=${estado}&`;
-
-            try {
-                const response = await fetch(url);
-                const data = await response.json();
-                setEquipos(data);
-            } catch (error) {
-                console.error("Error al obtener equipos:", error);
-            }
-        };
-
-        fetchEquipos();
-    }, [tipo, estado]);
 
     const [equipoSeleccionado, setEquipoSeleccionado] = useState(null);
     const [modalVisible, setModalVisible] = useState(false);
@@ -60,7 +47,7 @@ const GestionarEquipos = () => {
             });
 
             if (response.ok) {
-                alert("Equipo actualizado correctamente");
+                toast.success("Equipo actualizado correctamente"); // Notificación de éxito
                 setModalVisible(false);
                 setEquipoSeleccionado(null);
                 const updatedEquipos = equipos.map((eq) =>
@@ -68,10 +55,11 @@ const GestionarEquipos = () => {
                 );
                 setEquipos(updatedEquipos);
             } else {
-                alert("Error al actualizar el equipo");
+                toast.error("Error al actualizar el equipo"); // Notificación de error
             }
         } catch (error) {
             console.error("Error al actualizar el equipo:", error);
+            toast.error("Error al actualizar el equipo"); // Notificación de error
         }
     };
 
@@ -94,17 +82,44 @@ const GestionarEquipos = () => {
 
                 if (response.ok) {
                     setEquipos(equipos.filter((equipo) => equipo.id !== id));
-                    alert("Equipo eliminado exitosamente.");
+                    toast.success("Equipo eliminado exitosamente."); // Notificación de éxito
                 } else {
-                    alert("Error al eliminar el equipo.");
+                    toast.error("Error al eliminar el equipo."); // Notificación de error
                 }
             } catch (error) {
                 console.error("Error al eliminar el equipo:", error);
-                alert("Error al eliminar el equipo.");
+                toast.error("Error al eliminar el equipo."); // Notificación de error
             }
         }
     };
 
+    const fetchEquipos = useCallback(async () => {
+        let url = `/api/equipos?page=${currentPage}&limit=${limit}`;
+        if (tipo) url += `&tipo=${tipo}`;
+        if (estado) url += `&estado=${estado}`;
+
+        try {
+            const response = await fetch(url);
+            const data = await response.json();
+            setEquipos(data.equipos);
+            setTotalPages(data.totalPages);
+        } catch (error) {
+            console.error("Error al obtener equipos:", error);
+        }
+    }, [tipo, estado, currentPage, limit]); // Dependencias necesarias para la función
+
+    // Llamada a fetchEquipos cuando cambian los filtros o la página
+    useEffect(() => {
+        fetchEquipos();
+    }, [fetchEquipos]);
+
+
+
+    const handlePageChange = (pageNumber) => {
+        if (pageNumber > 0 && pageNumber <= totalPages) {
+            setCurrentPage(pageNumber);
+        }
+    };
     return (
         <div className="p-6">
             <h1 className="text-3xl font-bold mb-4">Equipos en Inventario</h1>
@@ -200,6 +215,24 @@ const GestionarEquipos = () => {
                     </tbody>
                 </table>
             </div>
+            <div className="flex justify-center mt-4">
+                <button
+                    onClick={() => handlePageChange(currentPage - 1)}
+                    className="px-4 py-2 bg-blue-200 hover:bg-blue-400 rounded"
+                    disabled={currentPage === 1}
+                >
+                    Anterior
+                </button>
+                <span className="px-4 py-2">Página {currentPage} de {totalPages}</span>
+                <button
+                    onClick={() => handlePageChange(currentPage + 1)}
+                    className="px-4 py-2  bg-blue-200 hover:bg-blue-400 rounded"
+                    disabled={currentPage === totalPages}
+                >
+                    Siguiente
+                </button>
+            </div>
+
             {modalVisible && equipoSeleccionado && (
                 <div className="fixed inset-0 bg-slate-800 bg-opacity-75 flex justify-center items-center z-50">
                     <div className="bg-white p-6 rounded shadow-lg w-full max-w-2xl">
@@ -273,7 +306,7 @@ const GestionarEquipos = () => {
                 </div>
             )}
             {showAgregarEquipo && (
-                <AgregarEquipo handleCloseAgregarEquipo={handleCloseAgregarEquipo} />
+                <AgregarEquipo handleCloseAgregarEquipo={handleCloseAgregarEquipo} fetchEquipos={fetchEquipos} />
             )}
         </div>
     );

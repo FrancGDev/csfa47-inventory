@@ -33,6 +33,8 @@ export async function GET(request) {
         const url = new URL(request.url);
         const tipo = url.searchParams.get("tipo");
         const estado = url.searchParams.get("estado");
+        const page = parseInt(url.searchParams.get("page") || "1", 10);
+        const limit = parseInt(url.searchParams.get("limit") || "10", 10);
 
         const filters = {};
         if (tipo) {
@@ -42,11 +44,25 @@ export async function GET(request) {
             filters.estado = estado;
         }
 
+        // Obtener los equipos con paginación
         const equipos = await prisma.equipo.findMany({
+            where: filters,
+            skip: (page - 1) * limit, // Desplazar según la página
+            take: limit, // Limitar la cantidad de equipos
+        });
+
+        // Contar el total de equipos para saber cuántas páginas hay
+        const totalEquipos = await prisma.equipo.count({
             where: filters,
         });
 
-        return NextResponse.json(equipos, { status: 200 });
+        const totalPages = Math.ceil(totalEquipos / limit); // Calcular el total de páginas
+
+        return NextResponse.json({
+            equipos,
+            totalPages,
+            currentPage: page,
+        }, { status: 200 });
     } catch (error) {
         console.error("Error al obtener los equipos:", error);
         return NextResponse.json(

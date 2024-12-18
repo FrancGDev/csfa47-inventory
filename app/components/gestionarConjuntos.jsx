@@ -11,6 +11,10 @@ const Conjuntos = () => {
     const [conjuntoSeleccionado, setConjuntoSeleccionado] = useState(null);
     const [modalConjuntoVisible, setModalConjuntoVisible] = useState(false);
 
+    const [currentPage, setCurrentPage] = useState(1);
+    const [itemsPerPage] = useState(5);
+
+
     useEffect(() => {
         fetchData('/api/equipos', setEquipos);
         fetchData('/api/conjuntos', setConjuntos);
@@ -20,7 +24,7 @@ const Conjuntos = () => {
         try {
             const response = await fetch(url);
             const data = await response.json();
-            setter(data);
+            setter(Array.isArray(data) ? data : []); // Asegurarse de que los datos sean un array
         } catch (error) {
             console.error(`Error fetching data from ${url}:`, error);
         }
@@ -122,6 +126,18 @@ const Conjuntos = () => {
 
 
 
+    const indexOfLastConjunto = currentPage * itemsPerPage;
+    const indexOfFirstConjunto = indexOfLastConjunto - itemsPerPage;
+    const currentConjuntos = conjuntos.slice(indexOfFirstConjunto, indexOfLastConjunto);
+
+    const totalPages = Math.ceil(conjuntos.length / itemsPerPage);
+
+    const handlePageChange = (pageNumber) => {
+        setCurrentPage(pageNumber);
+    };
+
+
+
     return (
         <>
             <section className="p-6">
@@ -135,7 +151,6 @@ const Conjuntos = () => {
                     </button>
                 </div>
 
-
                 <div className="overflow-x-auto bg-white rounded shadow-lg">
                     <table className="min-w-full border-collapse">
                         <thead>
@@ -148,8 +163,8 @@ const Conjuntos = () => {
                             </tr>
                         </thead>
                         <tbody>
-                            {conjuntos.length > 0 ? (
-                                conjuntos.map((conjunto) => (
+                            {currentConjuntos.length > 0 ? (
+                                currentConjuntos.map((conjunto) => (
                                     <tr key={conjunto.id} className="border-b hover:bg-gray-100">
                                         <td className="p-3">{conjunto.id}</td>
                                         <td className="p-3">{conjunto.name}</td>
@@ -176,7 +191,7 @@ const Conjuntos = () => {
                                                 <span className="material-icons">edit_square</span>
                                             </button>
                                             <button
-                                                onClick={() => handleDeleteConjunto(conjunto.id)}  // Llama a la función de eliminación
+                                                onClick={() => handleDeleteConjunto(conjunto.id)}
                                                 className="text-red-500 hover:text-red-700"
                                                 title="Eliminar conjunto"
                                             >
@@ -195,6 +210,26 @@ const Conjuntos = () => {
                         </tbody>
                     </table>
                 </div>
+
+                <div className="flex justify-center mt-4">
+                    <button
+                        onClick={() => handlePageChange(currentPage - 1)}
+                        disabled={currentPage === 1}
+                        className="px-4 py-2 bg-blue-200 hover:bg-blue-400 rounded"
+                    >
+                        Anterior
+                    </button>
+                    <span className="px-4 py-2">
+                        Página {currentPage} de {totalPages}
+                    </span>
+                    <button
+                        onClick={() => handlePageChange(currentPage + 1)}
+                        disabled={currentPage * itemsPerPage >= conjuntos.length}
+                        className="px-4 py-2 bg-blue-200 hover:bg-blue-400 rounded"
+                    >
+                        Siguiente
+                    </button>
+                </div>
             </section>
             {modalConjuntoVisible && conjuntoSeleccionado && (
                 <div className="fixed inset-0 bg-slate-800 bg-opacity-75 flex justify-center items-center z-50">
@@ -208,7 +243,6 @@ const Conjuntos = () => {
                             }}
                             className="space-y-6"
                         >
-                            {/* Nombre del conjunto */}
                             <div className="space-y-2">
                                 <label className="text-lg font-medium text-gray-700">Nombre del conjunto:</label>
                                 <input
@@ -222,7 +256,6 @@ const Conjuntos = () => {
                                 />
                             </div>
 
-                            {/* Descripción del conjunto */}
                             <div className="space-y-2">
                                 <label className="text-lg font-medium text-gray-700">Descripción:</label>
                                 <textarea
@@ -234,7 +267,6 @@ const Conjuntos = () => {
                                 />
                             </div>
 
-                            {/* Selección de equipos */}
                             <div className="space-y-2">
                                 <label className="text-lg font-medium text-gray-700">Seleccionar Equipos:</label>
                                 <div className="space-y-2">
@@ -266,7 +298,6 @@ const Conjuntos = () => {
                                 </div>
                             </div>
 
-                            {/* Botones */}
                             <div className="flex justify-end space-x-4">
                                 <button
                                     type="button"
