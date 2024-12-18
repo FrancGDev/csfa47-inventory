@@ -118,7 +118,7 @@ const Mantenimiento = () => {
                                 className="border rounded p-2 w-full"
                             >
                                 <option value="" disabled hidden>
-                                    Seleccione el estado actual
+                                    Seleccione el estado dejado
                                 </option>
                                 <option value="BUEN ESTADO">Buen estado</option>
                                 <option value="NECESITA REVISION">Necesita revisión</option>

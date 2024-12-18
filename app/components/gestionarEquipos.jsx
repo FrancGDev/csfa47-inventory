@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from "react";
+import AgregarEquipo from "./agregarEquipo";
 
-const ListarEquipos = () => {
+const GestionarEquipos = () => {
     const [equipos, setEquipos] = useState([]);
     const [tipo, setTipo] = useState("");
     const [estado, setEstado] = useState("");
 
-    const [equipoSeleccionado, setEquipoSeleccionado] = useState(null);
-    const [modalVisible, setModalVisible] = useState(false);
+    const [showAgregarEquipo, setShowAgregarEquipo] = useState(false);
+    const handleOpenAgregarEquipo = () => setShowAgregarEquipo(true);
+    const handleCloseAgregarEquipo = () => setShowAgregarEquipo(false);
 
     const handleTipoChange = (e) => {
         setTipo(e.target.value);
@@ -33,6 +35,9 @@ const ListarEquipos = () => {
 
         fetchEquipos();
     }, [tipo, estado]);
+
+    const [equipoSeleccionado, setEquipoSeleccionado] = useState(null);
+    const [modalVisible, setModalVisible] = useState(false);
 
     const handleEdit = (equipo) => {
         setEquipoSeleccionado(equipo);
@@ -104,38 +109,46 @@ const ListarEquipos = () => {
         <div className="p-6">
             <h1 className="text-3xl font-bold mb-4">Equipos en Inventario</h1>
 
-            <div className="mb-4 flex space-x-4">
-                <div>
-                    <label className="block text-lg font-medium mb-2">Tipo:</label>
-                    <select
-                        value={tipo}
-                        onChange={handleTipoChange}
-                        className="border p-2 rounded w-full"
-                    >
-                        <option value="">Todos</option>
-                        <option value="PC">PC</option>
-                        <option value="RATON">RATON</option>
-                        <option value="TECLADO">TECLADO</option>
-                        <option value="PARLANTES">PARLANTES</option>
-                        <option value="MONITOR">MONITOR</option>
-                        <option value="IMPRESORA">IMPRESORA</option>
-                        <option value="OTROS">OTROS</option>
-                    </select>
+            <div className="flex justify-between items-end mb-4">
+                <div className="flex space-x-6">
+                    <div>
+                        <label className="block text-lg font-medium mb-2">Tipo:</label>
+                        <select
+                            value={tipo}
+                            onChange={handleTipoChange}
+                            className="border p-2 rounded w-full"
+                        >
+                            <option value="">Todos</option>
+                            <option value="PC">PC</option>
+                            <option value="RATON">RATON</option>
+                            <option value="TECLADO">TECLADO</option>
+                            <option value="PARLANTES">PARLANTES</option>
+                            <option value="MONITOR">MONITOR</option>
+                            <option value="IMPRESORA">IMPRESORA</option>
+                            <option value="OTROS">OTROS</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label className="block text-lg font-medium mb-2">Estado:</label>
+                        <select
+                            value={estado}
+                            onChange={handleEstadoChange}
+                            className="border p-2 rounded w-full"
+                        >
+                            <option value="">Todo</option>
+                            <option value="BUEN ESTADO">Buen estado</option>
+                            <option value="NECESITA REVISION">Necesita revisión</option>
+                            <option value="NECESITA MANTENIMIENTO">Necesita mantenimiento</option>
+                            <option value="NECESITA REEMPLAZO">Necesita reemplazo</option>
+                        </select>
+                    </div>
                 </div>
-                <div>
-                    <label className="block text-lg font-medium mb-2">Estado:</label>
-                    <select
-                        value={estado}
-                        onChange={handleEstadoChange}
-                        className="border p-2 rounded w-full"
-                    >
-                        <option value="">Todo</option>
-                        <option value="BUEN ESTADO">Buen estado</option>
-                        <option value="NECESITA REVISION">Necesita revisión</option>
-                        <option value="NECESITA MANTENIMIENTO">Necesita mantenimiento</option>
-                        <option value="NECESITA REEMPLAZO">Necesita reemplazo</option>
-                    </select>
-                </div>
+                <button
+                    onClick={handleOpenAgregarEquipo}
+                    className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition"
+                >
+                    Agregar Equipo
+                </button>
             </div>
 
             <div className="overflow-x-auto bg-white rounded shadow-lg">
@@ -203,13 +216,20 @@ const ListarEquipos = () => {
                         </div>
                         <div className="mb-4">
                             <label className="block text-sm font-medium mb-2">Tipo:</label>
-                            <input
-                                type="text"
+                            <select
                                 name="tipo"
                                 value={equipoSeleccionado.tipo}
                                 onChange={handleInputChange}
                                 className="border p-2 rounded w-full"
-                            />
+                            >
+                                <option value="PC">PC</option>
+                                <option value="RATON">RATÓN</option>
+                                <option value="TECLADO">TECLADO</option>
+                                <option value="PARLANTES">PARLANTES</option>
+                                <option value="MONITOR">MONITOR</option>
+                                <option value="IMPRESORA">IMPRESORA</option>
+                                <option value="OTROS">OTROS</option>
+                            </select>
                         </div>
                         <div className="mb-4">
                             <label className="block text-sm font-medium mb-2">Descripción:</label>
@@ -252,8 +272,11 @@ const ListarEquipos = () => {
                     </div>
                 </div>
             )}
+            {showAgregarEquipo && (
+                <AgregarEquipo handleCloseAgregarEquipo={handleCloseAgregarEquipo} />
+            )}
         </div>
     );
 };
 
-export default ListarEquipos;
+export default GestionarEquipos;

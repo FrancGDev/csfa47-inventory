@@ -2,15 +2,14 @@
 
 
 import MainLayout from "../components/MainLayout";
-import ListarEquipos from "../components/listarEquipos";
-
-import Conjuntos from "../components/conjuntos";
+import GestionarEquipos from "../components/gestionarEquipos";
+import GestionarConjuntos from "../components/gestionarConjuntos";
 
 const Dashboard = () => {
     return (
         <MainLayout>
-            <ListarEquipos />
-            <Conjuntos />
+            <GestionarEquipos />
+            <GestionarConjuntos />
         </MainLayout>
     );
 };
