@@ -14,7 +14,6 @@ const Conjuntos = () => {
     const [currentPage, setCurrentPage] = useState(1);
     const [itemsPerPage] = useState(5);
 
-
     useEffect(() => {
         fetchData('/api/equipos', setEquipos);
         fetchData('/api/conjuntos', setConjuntos);
@@ -24,7 +23,7 @@ const Conjuntos = () => {
         try {
             const response = await fetch(url);
             const data = await response.json();
-            setter(Array.isArray(data) ? data : []); // Asegurarse de que los datos sean un array
+            setter(Array.isArray(data) ? data : []);
         } catch (error) {
             console.error(`Error fetching data from ${url}:`, error);
         }
@@ -101,8 +100,6 @@ const Conjuntos = () => {
         setConjuntoSeleccionado(prevState => ({ ...prevState, equipos: selectedEquipos }));
     };
 
-
-    // Función para eliminar el conjunto
     const handleDeleteConjunto = async (id) => {
         const confirmDelete = window.confirm("¿Estás seguro de que quieres eliminar este conjunto?");
         if (confirmDelete) {
@@ -317,7 +314,6 @@ const Conjuntos = () => {
                     </div>
                 </div>
             )}
-
 
             {showCrearConjunto && (
                 <div className="fixed inset-0 bg-slate-800 bg-opacity-75 flex justify-center items-center z-50">

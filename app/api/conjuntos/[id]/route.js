@@ -10,7 +10,6 @@ export async function PUT(request, { params }) {
         const body = await request.json();
         const { name, description, equipos } = body;
 
-        // Validar que los campos requeridos estén presentes
         if (!name || !equipos || !Array.isArray(equipos) || equipos.some((e) => typeof e !== "number")) {
             return NextResponse.json(
                 { error: "Faltan campos obligatorios o el formato de equipos no es válido" },
@@ -18,7 +17,6 @@ export async function PUT(request, { params }) {
             );
         }
 
-        // Actualizar el conjunto
         const conjuntoActualizado = await prisma.conjunto.update({
             where: { id: parseInt(id) },
             data: {
@@ -35,7 +33,7 @@ export async function PUT(request, { params }) {
         // Crear nuevas relaciones
         const nuevoConjuntoEquipos = equipos.map((equipoId) => ({
             conjuntoId: parseInt(id),
-            equipoId, // Aquí ya esperamos solo IDs
+            equipoId,
         }));
 
         await prisma.conjuntoEquipo.createMany({

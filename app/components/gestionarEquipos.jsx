@@ -47,7 +47,7 @@ const GestionarEquipos = () => {
             });
 
             if (response.ok) {
-                toast.success("Equipo actualizado correctamente"); // Notificación de éxito
+                toast.success("Equipo actualizado correctamente");
                 setModalVisible(false);
                 setEquipoSeleccionado(null);
                 const updatedEquipos = equipos.map((eq) =>
@@ -55,11 +55,11 @@ const GestionarEquipos = () => {
                 );
                 setEquipos(updatedEquipos);
             } else {
-                toast.error("Error al actualizar el equipo"); // Notificación de error
+                toast.error("Error al actualizar el equipo");
             }
         } catch (error) {
             console.error("Error al actualizar el equipo:", error);
-            toast.error("Error al actualizar el equipo"); // Notificación de error
+            toast.error("Error al actualizar el equipo");
         }
     };
 
@@ -82,19 +82,19 @@ const GestionarEquipos = () => {
 
                 if (response.ok) {
                     setEquipos(equipos.filter((equipo) => equipo.id !== id));
-                    toast.success("Equipo eliminado exitosamente."); // Notificación de éxito
+                    toast.success("Equipo eliminado exitosamente.");
                 } else {
-                    toast.error("Error al eliminar el equipo."); // Notificación de error
+                    toast.error("Error al eliminar el equipo.");
                 }
             } catch (error) {
                 console.error("Error al eliminar el equipo:", error);
-                toast.error("Error al eliminar el equipo."); // Notificación de error
+                toast.error("Error al eliminar el equipo.");
             }
         }
     };
 
     const fetchEquipos = useCallback(async () => {
-        let url = `/api/equipos?page=${currentPage}&limit=${limit}`;
+        let url = `/api/equipos?paginacion=true&page=${currentPage}&limit=${limit}`;
         if (tipo) url += `&tipo=${tipo}`;
         if (estado) url += `&estado=${estado}`;
 
@@ -106,12 +106,12 @@ const GestionarEquipos = () => {
         } catch (error) {
             console.error("Error al obtener equipos:", error);
         }
-    }, [tipo, estado, currentPage, limit]); // Dependencias necesarias para la función
+    }, [tipo, estado, currentPage, limit]);
 
-    // Llamada a fetchEquipos cuando cambian los filtros o la página
     useEffect(() => {
         fetchEquipos();
     }, [fetchEquipos]);
+
 
 
 

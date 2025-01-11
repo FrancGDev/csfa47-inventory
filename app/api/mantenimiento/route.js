@@ -28,7 +28,6 @@ export async function POST(request) {
             return NextResponse.json({ error: "Faltan campos obligatorios" }, { status: 400 });
         }
 
-        // Agregar registro de mantenimiento
         await prisma.mantenimiento.create({
             data: {
                 equipoId,
@@ -38,7 +37,6 @@ export async function POST(request) {
             },
         });
 
-        // Actualizar estado del equipo
         await prisma.equipo.update({
             where: { id: equipoId },
             data: { estado },
