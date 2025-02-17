@@ -230,7 +230,7 @@ const Conjuntos = () => {
             </section>
             {modalConjuntoVisible && conjuntoSeleccionado && (
                 <div className="fixed inset-0 bg-slate-800 bg-opacity-75 flex justify-center items-center z-50">
-                    <div className="bg-white p-6 rounded shadow-lg w-full max-w-2xl">
+                    <div className="bg-white p-6 rounded shadow-lg w-full max-w-2xl max-h-[90vh] overflow-y-auto">
                         <h2 className="text-xl font-bold mb-4">Editar Conjunto</h2>
 
                         <form
@@ -266,9 +266,9 @@ const Conjuntos = () => {
 
                             <div className="space-y-2">
                                 <label className="text-lg font-medium text-gray-700">Seleccionar Equipos:</label>
-                                <div className="space-y-2">
+                                <div className="border border-gray-300 rounded-lg p-2">
                                     {equipos.map((equipo) => (
-                                        <div key={equipo.id} className="flex items-center space-x-3">
+                                        <div key={equipo.id} className="flex items-center space-x-3 py-1">
                                             <input
                                                 type="checkbox"
                                                 checked={conjuntoSeleccionado.equipos.some((e) => e.id === equipo.id)}
@@ -313,11 +313,12 @@ const Conjuntos = () => {
                         </form>
                     </div>
                 </div>
+
             )}
 
             {showCrearConjunto && (
                 <div className="fixed inset-0 bg-slate-800 bg-opacity-75 flex justify-center items-center z-50">
-                    <div className="bg-white rounded shadow-lg p-6 relative w-full max-w-2xl">
+                    <div className="bg-white rounded shadow-lg p-6 relative w-full max-w-2xl max-h-[90vh] overflow-y-auto">
                         <section className="w-full flex flex-col items-center">
                             <h1 className="text-center text-4xl m-4 font-semibold">Crear Conjunto</h1>
 
@@ -346,9 +347,9 @@ const Conjuntos = () => {
 
                                 <div className="space-y-2">
                                     <label className="text-lg font-medium text-gray-700">Seleccionar Equipos:</label>
-                                    <div className="space-y-2">
+                                    <div className="border border-gray-300 rounded-lg p-2">
                                         {equipos.map((equipo) => (
-                                            <div key={equipo.id} className="flex items-center space-x-3">
+                                            <div key={equipo.id} className="flex items-center space-x-3 py-1">
                                                 <input
                                                     type="checkbox"
                                                     value={equipo.id}
@@ -376,13 +377,13 @@ const Conjuntos = () => {
                                 <div className="flex justify-end space-x-4">
                                     <button
                                         onClick={handleCloseCrearConjunto}
-                                        className="bg-gray-500 text-white  px-4 py-2 rounded shadow-md hover:bg-gray-600 transition duration-200"
+                                        className="bg-gray-500 text-white px-4 py-2 rounded shadow-md hover:bg-gray-600 transition duration-200"
                                     >
                                         Cancelar
                                     </button>
                                     <button
                                         type="submit"
-                                        className="bg-blue-500 text-white  px-4 py-2 rounded shadow-md hover:bg-blue-600 transition duration-200"
+                                        className="bg-blue-500 text-white px-4 py-2 rounded shadow-md hover:bg-blue-600 transition duration-200"
                                     >
                                         Crear Conjunto
                                     </button>
@@ -391,6 +392,8 @@ const Conjuntos = () => {
                         </section>
                     </div>
                 </div>
+
+
             )}
 
         </>
