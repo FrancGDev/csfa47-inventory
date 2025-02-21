@@ -40,13 +40,11 @@ const HistorialMantenimiento = () => {
         return <section className="py-16"><p>No hay registros de mantenimiento.</p></section>;
     }
 
-    // 🔹 Filtrar historial en tiempo real por ID y nombre del equipo
     const historialFiltrado = historial.filter(item =>
         (filtroId ? item.equipo.id.toString().includes(filtroId) : true) &&
         (filtroNombre ? item.equipo.nombre.toLowerCase().includes(filtroNombre.toLowerCase()) : true)
     );
 
-    // Paginación
     const indexOfLastItem = currentPage * itemsPerPage;
     const indexOfFirstItem = indexOfLastItem - itemsPerPage;
     const currentItems = historialFiltrado.slice(indexOfFirstItem, indexOfLastItem);
@@ -147,7 +145,6 @@ const HistorialMantenimiento = () => {
                     />
                 )}
             </div>
-
 
             <div className="overflow-x-auto bg-white rounded shadow-lg">
                 <table className="min-w-full border-collapse">
