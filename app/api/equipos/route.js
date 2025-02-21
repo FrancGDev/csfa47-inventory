@@ -46,7 +46,6 @@ export async function GET(request) {
         }
 
         if (paginacion) {
-            // para equipos
             const equipos = await prisma.equipo.findMany({
                 where: filters,
                 skip: (page - 1) * limit,
