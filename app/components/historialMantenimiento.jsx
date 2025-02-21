@@ -7,6 +7,9 @@ const HistorialMantenimiento = () => {
     const [loading, setLoading] = useState(true);
     const [currentPage, setCurrentPage] = useState(1);
     const [itemsPerPage] = useState(10);
+    const [filtroId, setFiltroId] = useState("");
+    const [filtroNombre, setFiltroNombre] = useState("");
+    const [filtroTipo, setFiltroTipo] = useState("id");
 
     useEffect(() => {
         const fetchHistorial = async () => {
@@ -30,21 +33,24 @@ const HistorialMantenimiento = () => {
     }, []);
 
     if (loading) {
-        return <section className="py-16"><p>Cargando historial de mantenimiento...</p></section>
+        return <section className="py-16"><p>Cargando historial de mantenimiento...</p></section>;
     }
 
     if (historial.length === 0) {
-        return <section className="py-16"><p>No hay registros de mantenimiento.</p></section>
+        return <section className="py-16"><p>No hay registros de mantenimiento.</p></section>;
     }
 
+    // 🔹 Filtrar historial en tiempo real por ID y nombre del equipo
+    const historialFiltrado = historial.filter(item =>
+        (filtroId ? item.equipo.id.toString().includes(filtroId) : true) &&
+        (filtroNombre ? item.equipo.nombre.toLowerCase().includes(filtroNombre.toLowerCase()) : true)
+    );
+
+    // Paginación
     const indexOfLastItem = currentPage * itemsPerPage;
     const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-    const currentItems = historial.slice(indexOfFirstItem, indexOfLastItem);
-
-    const totalPages = Math.ceil(historial.length / itemsPerPage);
-
-
-
+    const currentItems = historialFiltrado.slice(indexOfFirstItem, indexOfLastItem);
+    const totalPages = Math.ceil(historialFiltrado.length / itemsPerPage);
 
     const handlePrint = () => {
         const printWindow = window.open('', '_blank');
@@ -81,7 +87,7 @@ const HistorialMantenimiento = () => {
                             </tr>
                         </thead>
                         <tbody>
-                            ${historial.map((registro) => `
+                            ${historialFiltrado.map((registro) => `
                                 <tr>
                                     <td>${registro.id}</td>
                                     <td>${registro.equipo.id} - ${registro.equipo.nombre}</td>
@@ -103,7 +109,6 @@ const HistorialMantenimiento = () => {
     return (
         <section className="py-16">
             <div className="flex justify-between items-center mb-4">
-
                 <h1 className="text-2xl font-bold">Historial de Mantenimiento</h1>
                 <button
                     onClick={handlePrint}
@@ -112,6 +117,37 @@ const HistorialMantenimiento = () => {
                     Imprimir
                 </button>
             </div>
+
+            <div className="flex items-center gap-4 mb-4">
+                <label className="font-semibold">Filtrar por:</label>
+                <select
+                    value={filtroTipo}
+                    onChange={(e) => setFiltroTipo(e.target.value)}
+                    className="px-3 py-2 border rounded w-40"
+                >
+                    <option value="id">ID</option>
+                    <option value="nombre">Nombre</option>
+                </select>
+
+                {filtroTipo === "id" ? (
+                    <input
+                        type="text"
+                        placeholder="Ingrese el ID"
+                        value={filtroId}
+                        onChange={(e) => setFiltroId(e.target.value)}
+                        className="px-3 py-2 border rounded w-96"
+                    />
+                ) : (
+                    <input
+                        type="text"
+                        placeholder="Ingrese el nombre del equipo"
+                        value={filtroNombre}
+                        onChange={(e) => setFiltroNombre(e.target.value)}
+                        className="px-3 py-2 border rounded w-96"
+                    />
+                )}
+            </div>
+
 
             <div className="overflow-x-auto bg-white rounded shadow-lg">
                 <table className="min-w-full border-collapse">
@@ -159,7 +195,6 @@ const HistorialMantenimiento = () => {
                     Siguiente
                 </button>
             </div>
-
         </section>
     );
 };

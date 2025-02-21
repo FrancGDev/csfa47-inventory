@@ -5,7 +5,12 @@ const prisma = new PrismaClient();
 
 export async function GET(request) {
     try {
+        const { searchParams } = new URL(request.url);
+        const equipoId = searchParams.get('equipoId');
+        const filter = equipoId ? { equipoId: Number(equipoId) } : {};
+
         const mantenimientos = await prisma.mantenimiento.findMany({
+            where: filter,
             include: {
                 equipo: true,
             },
