@@ -101,12 +101,13 @@ const GestionarEquipos = () => {
         try {
             const response = await fetch(url);
             const data = await response.json();
-            setEquipos(data.equipos);
+            setEquipos(Array.isArray(data.equipos) ? data.equipos : []);
             setTotalPages(data.totalPages);
         } catch (error) {
             console.error("Error al obtener equipos:", error);
         }
     }, [tipo, estado, currentPage, limit]);
+
 
     useEffect(() => {
         fetchEquipos();
