@@ -23,7 +23,14 @@ const GestionarEquipos = () => {
     };
 
 
-    const [equipoSeleccionado, setEquipoSeleccionado] = useState(null);
+    const [equipoSeleccionado, setEquipoSeleccionado] = useState({
+        id: '',
+        nombre: '',
+        tipo: '',
+        descripcion: '',
+        estado: ''
+    });
+
     const [modalVisible, setModalVisible] = useState(false);
 
     const handleEdit = (equipo) => {
